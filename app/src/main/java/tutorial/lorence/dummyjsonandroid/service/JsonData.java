@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,7 +39,8 @@ public class JsonData {
     /**
      * Adds {@link User}'s from a JSON file.
      */
-    public void addUserFromJson(List<User> arrUsers) {
+    public List<User> getUsersFromJson() {
+        List<User> arrUsers = new ArrayList<>();
         try {
             String jsonDataString = convertJsonToString();
             JSONArray userJsonArray = new JSONArray(jsonDataString);
@@ -57,6 +59,7 @@ public class JsonData {
         } catch (IOException | JSONException exception) {
             Log.e(HomeActivity.class.getName(), "Unable to parse JSON file.", exception);
         }
+        return arrUsers;
     }
 
     /**

@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import tutorial.lorence.dummyjsonandroid.di.component.AppComponent;
 import tutorial.lorence.dummyjsonandroid.di.component.DaggerAppComponent;
 import tutorial.lorence.dummyjsonandroid.di.module.AppModule;
+import tutorial.lorence.dummyjsonandroid.di.module.DatabaseModule;
 import tutorial.lorence.dummyjsonandroid.di.module.LoadingModule;
 
 /**
@@ -41,6 +42,7 @@ public class Application extends android.app.Application {
         mApplicationComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this,mContext))
                 .loadingModule(new LoadingModule(this,mContext))
+                .databaseModule(new DatabaseModule(this, mContext))
                 .build();
     }
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
 import tutorial.lorence.dummyjsonandroid.R;
 import tutorial.lorence.dummyjsonandroid.app.Application;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
@@ -25,7 +26,7 @@ import tutorial.lorence.dummyjsonandroid.view.activities.home.loading.FragmentLo
  * @version 0.0.1
  */
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements HomeView {
 
     private List<User> mGroupUsers = new ArrayList<>();
 
@@ -41,11 +42,16 @@ public class HomeActivity extends BaseActivity {
     @Inject
     FragmentRecycler mFragmentRecycler;
 
+    @Inject
+    HomePresenter mHomePresenter;
+
+    private Disposable mDisposable;
+
     @Override
     public void distributedDaggerComponents() {
         Application.getInstance()
                 .getAppComponent()
-                .plus(new HomeModule(this))
+                .plus(new HomeModule(this, this))
                 .inject(this);
     }
 
@@ -60,7 +66,8 @@ public class HomeActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragmentTransaction.add(R.id.fragment_container, mFragmentLoading);
             mFragmentTransaction.commit();
-            mJsonData.addUserFromJson(mGroupUsers);
+//            mJsonData.addUserFromJson(mGroupUsers);
+            mHomePresenter.getUsers();
             showUserOnUI();
         }
     }
@@ -80,5 +87,28 @@ public class HomeActivity extends BaseActivity {
 
     public List<User> getGroupUsers() {
         return mGroupUsers;
+    }
+
+    @Override
+    public void setDisposable(Disposable disposable) {
+        mDisposable = disposable;
+    }
+
+    @Override
+    public void onGetUsersSuccess() {
+
+    }
+
+    @Override
+    public void onGetUsersFailure(String message) {
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 }

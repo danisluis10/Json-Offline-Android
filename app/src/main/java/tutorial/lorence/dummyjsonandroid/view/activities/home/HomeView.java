@@ -1,5 +1,7 @@
 package tutorial.lorence.dummyjsonandroid.view.activities.home;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by vuongluis on 4/14/2018.
  *
@@ -8,4 +10,7 @@ package tutorial.lorence.dummyjsonandroid.view.activities.home;
  */
 
 public interface HomeView {
+    void onGetUsersFailure(String message);
+    void onGetUsersSuccess();
+    void setDisposable(Disposable disposable);
 }

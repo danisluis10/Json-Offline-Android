@@ -11,6 +11,10 @@ import dagger.Module;
 import dagger.Provides;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
 import tutorial.lorence.dummyjsonandroid.di.scope.ActivityScope;
+import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeModel;
+import tutorial.lorence.dummyjsonandroid.view.activities.home.HomePresenter;
+import tutorial.lorence.dummyjsonandroid.view.activities.home.HomePresenterImpl;
+import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeView;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.adapter.UserAdapter;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.adapter.ViewType;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.fragment.FragmentRecycler;
@@ -28,9 +32,11 @@ import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeActivity;
 public class HomeModule {
 
     private HomeActivity mHomeActivity;
+    private HomeView mHomeView;
 
-    public HomeModule(HomeActivity homeActivity) {
+    public HomeModule(HomeActivity homeActivity, HomeView homeView) {
         this.mHomeActivity = homeActivity;
+        this.mHomeView = homeView;
     }
 
     @Provides
@@ -75,5 +81,11 @@ public class HomeModule {
     @ActivityScope
     FragmentRecycler provideFragmentRecycler(Context context, HomeActivity homeActivity, UserAdapter userAdapter) {
         return new FragmentRecycler(context, homeActivity, userAdapter);
+    }
+
+    @Provides
+    @ActivityScope
+    HomePresenter provideHomePresenter(Context context, HomeActivity activity, HomeModel homeModel, JsonData jsonData) {
+        return new HomePresenterImpl(context, activity, mHomeView, homeModel, jsonData);
     }
 }

@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import tutorial.lorence.dummyjsonandroid.data.storage.database.DbContract;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.DbHelper;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
@@ -23,6 +25,9 @@ import tutorial.lorence.dummyjsonandroid.other.Utils;
  */
 
 public class DAUser {
+
+    @Inject
+    public void DAUser() {}
 
     private ContentValues getContentValues(final User user, Context context) {
         ContentValues values = new ContentValues();

@@ -1,5 +1,8 @@
 package tutorial.lorence.dummyjsonandroid.other;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+
 /**
  * Created by vuongluis on 4/14/2018.
  *
@@ -26,5 +29,10 @@ public class Utils {
         }
         sLastClickTime = clickTime;
         return false;
+    }
+
+    public static boolean isInternetOn(Context context) {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }
