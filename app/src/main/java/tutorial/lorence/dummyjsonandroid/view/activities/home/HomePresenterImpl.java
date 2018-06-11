@@ -2,7 +2,11 @@ package tutorial.lorence.dummyjsonandroid.view.activities.home;
 
 import android.content.Context;
 
+import java.util.List;
+
 import io.reactivex.disposables.Disposable;
+import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
+import tutorial.lorence.dummyjsonandroid.service.DisposableManager;
 import tutorial.lorence.dummyjsonandroid.service.JsonData;
 
 /**
@@ -19,15 +23,18 @@ public class HomePresenterImpl implements HomePresenter {
     private HomeView mHomeView;
     private HomeModel mHomeModel;
     private JsonData mJsonData;
+    private DisposableManager mDisposableManager;
 
-    public HomePresenterImpl(Context context, HomeActivity homeActivity, HomeView homeView, HomeModel homeModel, JsonData jsonData) {
+    public HomePresenterImpl(Context context, HomeActivity homeActivity, HomeView homeView, HomeModel homeModel, JsonData jsonData, DisposableManager disposableManager) {
         mContext = context;
         mHomeView = homeView;
         mHomeModel = homeModel;
         mHomeActivity = homeActivity;
+        mDisposableManager = disposableManager;
         mJsonData = jsonData;
         mHomeModel.attachPresenter(this);
         mHomeModel.attachJsonData(mJsonData);
+        mHomeModel.attachDisposable(disposableManager);
     }
 
     @Override
@@ -41,8 +48,8 @@ public class HomePresenterImpl implements HomePresenter {
     }
 
     @Override
-    public void onGetUsersSuccess() {
-        mHomeView.onGetUsersSuccess();
+    public void onGetUsersSuccess(List<User> users) {
+        mHomeView.onGetUsersSuccess(users);
     }
 
     @Override

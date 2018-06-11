@@ -1,16 +1,17 @@
 package tutorial.lorence.dummyjsonandroid.view.activities.home;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import retrofit2.Response;
 import tutorial.lorence.dummyjsonandroid.R;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.DbAccess.DAUser;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
 import tutorial.lorence.dummyjsonandroid.other.Utils;
 import tutorial.lorence.dummyjsonandroid.service.DisposableManager;
+import tutorial.lorence.dummyjsonandroid.service.IDisposableListener;
 import tutorial.lorence.dummyjsonandroid.service.JsonData;
 
 /**
@@ -20,13 +21,13 @@ import tutorial.lorence.dummyjsonandroid.service.JsonData;
  * @version 0.0.1
  */
 
-public class HomeModelImpl implements HomeModel, DisposableManager.IDisposableListener<User> {
+public class HomeModelImpl implements HomeModel, IDisposableListener<User> {
 
     private Context mContext;
     private DAUser mDaUser;
     private HomePresenter mHomePresenter;
     private JsonData mJsonData;
-    private DisposableManager<Response<User>> mDisposableManager;
+    private DisposableManager mDisposableManager;
 
     public HomeModelImpl(Context context, DAUser daUser) {
         mContext = context;
@@ -44,6 +45,12 @@ public class HomeModelImpl implements HomeModel, DisposableManager.IDisposableLi
     }
 
     @Override
+    public void attachDisposable(DisposableManager disposableManager) {
+        mDisposableManager = disposableManager;
+        mDisposableManager.setDisposableInterface(this);
+    }
+
+    @Override
     public void getUsers() {
         if (Utils.isInternetOn(mContext)) {
             mHomePresenter.setDisposable(mDisposableManager.callDisposable(Observable.just(mJsonData.getUsersFromJson())));
@@ -54,12 +61,11 @@ public class HomeModelImpl implements HomeModel, DisposableManager.IDisposableLi
 
     @Override
     public void onComplete() {
-        // TODO
     }
 
     @Override
     public void onHandleData(List<User> users) {
-
+        mHomePresenter.onGetUsersSuccess(users);
     }
 
     @Override

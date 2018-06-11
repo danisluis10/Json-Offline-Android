@@ -66,7 +66,6 @@ public class HomeActivity extends BaseActivity implements HomeView {
         if (savedInstanceState == null) {
             mFragmentTransaction.add(R.id.fragment_container, mFragmentLoading);
             mFragmentTransaction.commit();
-//            mJsonData.addUserFromJson(mGroupUsers);
             mHomePresenter.getUsers();
             showUserOnUI();
         }
@@ -95,8 +94,8 @@ public class HomeActivity extends BaseActivity implements HomeView {
     }
 
     @Override
-    public void onGetUsersSuccess() {
-
+    public void onGetUsersSuccess(List<User> users) {
+        mGroupUsers = users;
     }
 
     @Override

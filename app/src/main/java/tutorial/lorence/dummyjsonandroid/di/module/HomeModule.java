@@ -11,6 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
 import tutorial.lorence.dummyjsonandroid.di.scope.ActivityScope;
+import tutorial.lorence.dummyjsonandroid.service.DisposableManager;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeModel;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.HomePresenter;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.HomePresenterImpl;
@@ -85,7 +86,7 @@ public class HomeModule {
 
     @Provides
     @ActivityScope
-    HomePresenter provideHomePresenter(Context context, HomeActivity activity, HomeModel homeModel, JsonData jsonData) {
-        return new HomePresenterImpl(context, activity, mHomeView, homeModel, jsonData);
+    HomePresenter provideHomePresenter(Context context, HomeActivity activity, HomeModel homeModel, JsonData jsonData, DisposableManager disposableManager) {
+        return new HomePresenterImpl(context, activity, mHomeView, homeModel, jsonData, disposableManager);
     }
 }

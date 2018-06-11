@@ -1,6 +1,9 @@
 package tutorial.lorence.dummyjsonandroid.view.activities.home;
 
+import java.util.List;
+
 import io.reactivex.disposables.Disposable;
+import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
 
 /**
  * Created by vuongluis on 4/14/2018.
@@ -11,6 +14,6 @@ import io.reactivex.disposables.Disposable;
 
 public interface HomeView {
     void onGetUsersFailure(String message);
-    void onGetUsersSuccess();
+    void onGetUsersSuccess(List<User> users);
     void setDisposable(Disposable disposable);
 }

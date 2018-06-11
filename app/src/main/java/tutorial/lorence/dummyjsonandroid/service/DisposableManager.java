@@ -2,12 +2,15 @@ package tutorial.lorence.dummyjsonandroid.service;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
+import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeModelImpl;
 
 /**
  * Created by vuongluis on 4/14/2018.
@@ -16,12 +19,13 @@ import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
  * @version 0.0.1
  */
 
-public class DisposableManager<T> {
+public class DisposableManager {
+
     private IDisposableListener listener;
     private Disposable disposable;
 
-    public DisposableManager(IDisposableListener<T> listener) {
-        this.listener = listener;
+    @Inject
+    public DisposableManager() {
     }
 
     public Disposable callDisposable(Observable<List<User>> observable) {
@@ -46,12 +50,7 @@ public class DisposableManager<T> {
         return disposable;
     }
 
-    public interface IDisposableListener<T> {
-        void onComplete();
-
-        void onHandleData(List<User> users);
-
-        void onApiFailure(Throwable error);
+    public void setDisposableInterface(HomeModelImpl disposableInterface) {
+        this.listener = disposableInterface;
     }
-
 }
