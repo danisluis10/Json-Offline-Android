@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 
-import com.google.android.gms.ads.AdLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 
