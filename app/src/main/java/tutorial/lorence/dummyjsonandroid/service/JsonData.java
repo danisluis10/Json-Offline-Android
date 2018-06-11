@@ -3,9 +3,8 @@ package tutorial.lorence.dummyjsonandroid.service;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import tutorial.lorence.dummyjsonandroid.data.storage.database.DbContract;
 import tutorial.lorence.dummyjsonandroid.data.storage.database.entities.User;
 import tutorial.lorence.dummyjsonandroid.view.activities.home.HomeActivity;
 
@@ -40,26 +38,14 @@ public class JsonData {
      * Adds {@link User}'s from a JSON file.
      */
     public List<User> getUsersFromJson() {
-        List<User> arrUsers = new ArrayList<>();
+        Gson gson = new Gson();
         try {
             String jsonDataString = convertJsonToString();
-            JSONArray userJsonArray = new JSONArray(jsonDataString);
-            for (int i = 0; i < userJsonArray.length(); ++i) {
-                JSONObject userObject = userJsonArray.getJSONObject(i);
-                int userID = userObject.getInt(DbContract.TableUser.COLUMN_NAME_USER_ID);
-                String username = userObject.getString(DbContract.TableUser.COLUMN_NAME_USERNAME);
-                String password = userObject.getString(DbContract.TableUser.COLUMN_NAME_PASSWORD);
-                String fullname = userObject.getString(DbContract.TableUser.COLUMN_NAME_FULLNAME);
-                String path = userObject.getString(DbContract.TableUser.COLUMN_NAME_PATH);
-                String email = userObject.getString(DbContract.TableUser.COLUMN_NAME_EMAIL);
-                String address = userObject.getString(DbContract.TableUser.COLUMN_NAME_ADDRESS);
-                User user = new User(userID, username, password, fullname, path, email, address);
-                arrUsers.add(user);
-            }
-        } catch (IOException | JSONException exception) {
+            return gson.fromJson(jsonDataString, new TypeToken<ArrayList<User>>() {}.getType());
+        } catch (IOException exception) {
             Log.e(HomeActivity.class.getName(), "Unable to parse JSON file.", exception);
         }
-        return arrUsers;
+        return null;
     }
 
     /**
@@ -83,7 +69,6 @@ public class JsonData {
                 inputStream.close();
             }
         }
-
         return new String(builder);
     }
 

@@ -1,5 +1,8 @@
 package tutorial.lorence.dummyjsonandroid.data.storage.database.entities;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by vuongluis on 4/14/2018.
  *
@@ -8,12 +11,33 @@ package tutorial.lorence.dummyjsonandroid.data.storage.database.entities;
  */
 
 public class User {
+
+    @SerializedName("userid")
+    @Expose
     private int userid;
+
+    @SerializedName("username")
+    @Expose
     private String username;
+
+    @SerializedName("password")
+    @Expose
     private String password;
+
+    @SerializedName("fullname")
+    @Expose
     private String fullname;
+
+    @SerializedName("path")
+    @Expose
     private String path;
+
+    @SerializedName("email")
+    @Expose
     private String email;
+
+    @SerializedName("address")
+    @Expose
     private String address;
 
     public User() {
